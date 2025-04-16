@@ -1,0 +1,19 @@
+{
+  "1": [
+    "https://virginia.rpc.blxrbdn.com",
+    "https://uk.rpc.blxrbdn.com",
+    "https://singapore.rpc.blxrbdn.com",
+    "https://eth.rpc.blxrbdn.com",
+    "https://eth.api.onfinality.io/public",
+    "https://eth.llamarpc.com",
+    "https://eth.merkle.io",
+    "https://eth.blockrazor.xyz",
+    "https://1rpc.io/eth",
+    "https://rpc.mevblocker.io"
+  ],
+  "10": [
+    "https://1rpc.io/op",
+    "https://optimism.blockpi.network/v1/rpc/public"
+  ],
+  "8453": ["https://base.blockpi.network/v1/rpc/public"]
+}
