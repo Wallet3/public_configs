@@ -3,6 +3,7 @@
     "https://eth.llamarpc.com",
     "https://eth.merkle.io",
     "https://eth.blockrazor.xyz",
+    "https://1rpc.io/eth",
     "https://rpc.mevblocker.io"
   ],
   "2": ["https://node.expanse.tech"],
@@ -196,7 +197,6 @@
   "99": [],
   "100": [
     "https://rpc.gnosischain.com",
-    "https://rpc.ankr.com/gnosis",
     "https://gnosis-pokt.nodies.app",
     "https://rpc.gnosis.gateway.fm",
     "https://rpc.ap-southeast-1.gateway.fm/v4/gnosis/non-archival/mainnet",
@@ -397,6 +397,7 @@
   "943": ["https://pulsechain-testnet.publicnode.com", "https://pulsechain-testnet-rpc.publicnode.com"],
   "977": [],
   "998": [],
+  "999": ["https://rpc.hyperliquid.xyz/evm", "https://rpc.hypurrscan.io", "https://rpc.hyperlend.finance"],
   "1001": [
     "https://public-en-baobab.klaytn.net",
     "https://rpc.ankr.com/klaytn_testnet",
@@ -761,6 +762,8 @@
   "39815": ["https://mainnet.oho.ai", "https://mainnet-rpc.ohoscan.com", "https://mainnet-rpc2.ohoscan.com"],
   "42069": [],
   "42161": [
+    "https://arbitrum-one-rpc.publicnode.com",
+    "https://arbitrum.meowrpc.com",
     "https://arb1.arbitrum.io/rpc",
     "https://rpc.ankr.com/arbitrum",
     "https://1rpc.io/arb",
@@ -824,6 +827,7 @@
     "https://dfkchain.api.onfinality.io/public"
   ],
   "55555": ["https://rei-rpc.moonrhythm.io"],
+  "560048": ["https://rpc.hoodi.ethpandaops.io", "https://0xrpc.io/hoodi"],
   "57000": ["https://rollux.rpc-testnet.pollum.services"],
   "59140": ["https://rpc.goerli.linea.build", "https://linea-goerli.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161"],
   "59141": [
