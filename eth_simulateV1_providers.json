@@ -16,10 +16,10 @@
     "https://optimism.blockpi.network/v1/rpc/public"
   ],
   "8453": [
-    "https://1rpc.io/base",
-    "https://base.meowrpc.com",
     "https://base.drpc.org",
     "https://base.api.onfinality.io/public",
+    "https://1rpc.io/base",
+    "https://base.meowrpc.com",
     "https://base.blockpi.network/v1/rpc/public"
   ]
 }
