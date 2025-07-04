@@ -107,6 +107,7 @@
   ],
   "55": ["https://rpc-1.zyx.network", "https://rpc-2.zyx.network", "https://rpc-5.zyx.network"],
   "56": [
+    "https://binance.llamarpc.com",
     "https://bsc-dataseed1.ninicoin.io",
     "https://bsc-dataseed.bnbchain.org",
     "https://bsc-dataseed1.defibit.io",
@@ -970,6 +971,7 @@
   "8007736": ["https://mainnet.plian.io/child_0"],
   "10067275": ["https://testnet.plian.io/child_test"],
   "11155111": [
+    "https://1rpc.io/sepolia",
     "https://eth-sepolia-public.unifra.io",
     "https://sepolia.gateway.tenderly.co",
     "https://gateway.tenderly.co/public/sepolia",
