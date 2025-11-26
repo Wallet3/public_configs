@@ -29,4 +29,6 @@
 
 5. 额外要求：如果 chainId 为 1，则只将 `tracking: 'none'` 的 url 更新到 `rpc_providers.json`。
 
-6. 每次更新完成后，自动将名为 `providers_version` 文件的值+1，并保存。
+6. 检查所有 chainId 对应的 url 是否有效（能否返回最新的block number）。
+
+7. 每次更新完成后，自动将名为 `providers_version` 文件的值+1，并保存。

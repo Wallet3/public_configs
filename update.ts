@@ -20,6 +20,79 @@ interface ExtraRpcs {
   [chainId: string]: RpcConfig;
 }
 
+/**
+ * 检查 RPC URL 是否有效（能否返回最新的 block number）
+ */
+async function checkRpcUrl(url: string, timeout: number = 5000): Promise<boolean> {
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), timeout);
+
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        jsonrpc: '2.0',
+        method: 'eth_blockNumber',
+        params: [],
+        id: 1,
+      }),
+      signal: controller.signal,
+    });
+
+    clearTimeout(timeoutId);
+
+    if (!response.ok) {
+      return false;
+    }
+
+    const data = await response.json();
+
+    // 检查是否有有效的 result
+    if (data.result && typeof data.result === 'string' && data.result.startsWith('0x')) {
+      return true;
+    }
+
+    return false;
+  } catch (error) {
+    return false;
+  }
+}
+
+/**
+ * 并发检查多个 RPC URLs
+ */
+async function checkRpcUrls(urls: string[], concurrency: number = 10): Promise<string[]> {
+  const validUrls: string[] = [];
+  const chunks: string[][] = [];
+
+  // 将 URLs 分成多个批次
+  for (let i = 0; i < urls.length; i += concurrency) {
+    chunks.push(urls.slice(i, i + concurrency));
+  }
+
+  // 逐批次检查
+  for (const chunk of chunks) {
+    const results = await Promise.all(
+      chunk.map(async (url) => {
+        const isValid = await checkRpcUrl(url);
+        return { url, isValid };
+      })
+    );
+
+    // 收集有效的 URLs
+    for (const { url, isValid } of results) {
+      if (isValid) {
+        validUrls.push(url);
+      }
+    }
+  }
+
+  return validUrls;
+}
+
 async function main() {
   try {
     console.log("Fetching latest extraRpcs data from GitHub...");
@@ -97,15 +170,46 @@ async function main() {
       result[chainId] = urls;
     }
 
-    // 5. 写入文件
+    console.log(`\nValidating RPC URLs...`);
+    console.log(`Total chains to validate: ${Object.keys(result).length}`);
+
+    // 6. 验证所有 RPC URLs
+    const validatedResult: { [chainId: string]: string[] } = {};
+    let totalUrls = 0;
+    let validUrls = 0;
+    let processedChains = 0;
+
+    for (const [chainId, urls] of Object.entries(result)) {
+      if (urls.length === 0) {
+        validatedResult[chainId] = [];
+        continue;
+      }
+
+      totalUrls += urls.length;
+      processedChains++;
+
+      process.stdout.write(
+        `\rValidating chain ${chainId} (${processedChains}/${Object.keys(result).length}): ${urls.length} URLs...`
+      );
+
+      const validUrlsForChain = await checkRpcUrls(urls, 30);
+      validatedResult[chainId] = validUrlsForChain;
+      validUrls += validUrlsForChain.length;
+    }
+
+    console.log(
+      `\n✓ Validation complete: ${validUrls}/${totalUrls} URLs are valid (${((validUrls / totalUrls) * 100).toFixed(1)}%)`
+    );
+
+    // 7. 写入文件
     const outputPath = path.join(__dirname, "rpc_providers.json");
-    const jsonContent = JSON.stringify(result, null, 2);
+    const jsonContent = JSON.stringify(validatedResult, null, 2);
 
     fs.writeFileSync(outputPath, jsonContent + "\n");
 
     console.log(`✓ Successfully updated ${outputPath}`);
-    console.log(`  Total chains: ${Object.keys(result).length}`);
-    console.log(`  Chain 1 (Ethereum) RPCs: ${result["1"]?.length || 0}`);
+    console.log(`  Total chains: ${Object.keys(validatedResult).length}`);
+    console.log(`  Chain 1 (Ethereum) RPCs: ${validatedResult["1"]?.length || 0}`);
 
     // 6. 更新版本号
     const versionPath = path.join(__dirname, "providers_version");
