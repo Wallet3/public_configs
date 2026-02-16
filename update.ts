@@ -2,6 +2,7 @@
 
 import * as fs from "fs";
 import * as path from "path";
+import { execSync } from "child_process";
 
 import { fileURLToPath } from "url";
 
@@ -232,6 +233,14 @@ async function main() {
     fs.writeFileSync(versionPath, `${newVersion}`);
 
     console.log(`✓ Version updated: ${currentVersion} → ${newVersion}`);
+
+    // 7. Git commit and push
+    console.log(`\nCommitting and pushing changes...`);
+    const gitOpts = { cwd: __dirname, encoding: "utf-8" as const };
+    execSync("git add rpc_providers.json providers_version", gitOpts);
+    execSync("git commit -m \"update\"", gitOpts);
+    execSync("git push", gitOpts);
+    console.log(`✓ Changes pushed to remote`);
   } catch (error) {
     console.error("Error:", error instanceof Error ? error.message : error);
     process.exit(1);
